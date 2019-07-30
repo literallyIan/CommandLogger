@@ -1,0 +1,4 @@
+name: CommandLogger
+version: ${project.version}
+main: me.ian.Commandlogger
+api-version: 1.13
