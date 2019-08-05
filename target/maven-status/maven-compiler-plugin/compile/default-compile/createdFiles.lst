@@ -1,3 +1,8 @@
-me/ian/utils/ConfigUtil.class
 me/ian/events/CommandPreprocess.class
+me/ian/Commandlogger$1.class
+me/ian/utils/Updater$UpdateResult.class
+me/ian/utils/Updater.class
+me/ian/Commandlogger$2.class
+me/ian/utils/ConfigUtil.class
+me/ian/events/CommandPreprocess$1.class
 me/ian/Commandlogger.class

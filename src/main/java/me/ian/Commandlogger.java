@@ -2,6 +2,7 @@ package me.ian;
 
 import com.google.common.collect.Maps;
 import me.ian.events.CommandPreprocess;
+import me.ian.utils.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -12,6 +13,9 @@ import java.util.logging.Level;
 
 public final class Commandlogger extends JavaPlugin {
 
+    public boolean updateAvailable = false;
+    public String pluginVERSION = "";
+
     private static Commandlogger instance;
 
     @Override
@@ -19,9 +23,16 @@ public final class Commandlogger extends JavaPlugin {
         // Plugin startup logic
         instance = this;
         log("Plugin running on version " + getDescription().getVersion());
-        log("Developed with ❤ by Wg0.");
+        log("Developed with ❤  by Wg0.");
 
         processConfigFile();
+
+        getServer().getScheduler().runTaskLaterAsynchronously(this, new Runnable() {
+            @Override
+            public void run() {
+                checkUpdate();
+            }
+        }, 20L);
 
         registerEvents(Bukkit.getServer().getPluginManager());
     }
@@ -63,5 +74,33 @@ public final class Commandlogger extends JavaPlugin {
                 config.set(e.getKey(), e.getValue());
 
         this.saveConfig();
+    }
+
+    private void checkUpdate() {
+        log("Checking for updates...");
+        Updater updater = new Updater(this, 69845, false);
+        Updater.UpdateResult updateResult = updater.getResult();
+        switch (updateResult) {
+            case FAIL_SPIGOT:
+                log(Level.WARNING, "[UPDATER] Couldn't reach spigot.");
+                break;
+            case NO_UPDATE:
+                log("[UPDATER] The plugin is up to date.");
+                break;
+            case UPDATE_AVAILABLE:
+                pluginVERSION = updater.getVersion();
+                log("============================================");
+                log("An update is available:");
+                log("Commandlogger version: " + pluginVERSION);
+                log("============================================");
+                updateAvailable = true;
+                break;
+            case FAIL_NOVERSION:
+                log(Level.SEVERE, "[Updater] No version detected.");
+                break;
+            default:
+                log(updateResult.toString());
+                break;
+        }
     }
 }
