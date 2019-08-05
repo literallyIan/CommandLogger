@@ -13,9 +13,6 @@ import java.util.logging.Level;
 
 public final class Commandlogger extends JavaPlugin {
 
-    public boolean updateAvailable = false;
-    public String pluginVERSION = "";
-
     private static Commandlogger instance;
 
     @Override
@@ -77,7 +74,7 @@ public final class Commandlogger extends JavaPlugin {
     }
 
     private void checkUpdate() {
-        log("Checking for updates...");
+        log("[UPDATER] Checking for updates...");
         Updater updater = new Updater(this, 69845, false);
         Updater.UpdateResult updateResult = updater.getResult();
         switch (updateResult) {
@@ -88,12 +85,10 @@ public final class Commandlogger extends JavaPlugin {
                 log("[UPDATER] The plugin is up to date.");
                 break;
             case UPDATE_AVAILABLE:
-                pluginVERSION = updater.getVersion();
                 log("============================================");
                 log("An update is available:");
-                log("Commandlogger version: " + pluginVERSION);
+                log("Download at: https://www.spigotmc.org/resources/commandlogger.69845/");
                 log("============================================");
-                updateAvailable = true;
                 break;
             case FAIL_NOVERSION:
                 log(Level.SEVERE, "[Updater] No version detected.");

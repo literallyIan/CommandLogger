@@ -2,6 +2,7 @@ package me.ian.events;
 
 import me.ian.Commandlogger;
 import me.ian.utils.ConfigUtil;
+import me.ian.utils.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -40,12 +41,13 @@ public class CommandPreprocess implements Listener {
     @EventHandler
     public void on(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        if (player.isOp() && Commandlogger.getInstance().updateAvailable) {
+        Updater updater = new Updater(Commandlogger.getInstance(), 69845, false);
+        if (player.isOp() && updater.isNeedUpdate()) {
             Bukkit.getScheduler().runTaskLater(Commandlogger.getInstance(), new Runnable() {
                 @Override
                 public void run() {
-                    player.sendMessage(Commandlogger.getInstance().getConfig().getString("PREFIX") + " §aA new version of TheTowers is Out!");
-                    player.sendMessage(Commandlogger.getInstance().getConfig().getString("PREFIX") + " §7Version §6" + Commandlogger.getInstance().pluginVERSION + "§7, current version running is version §6" + Commandlogger.getInstance().getDescription().getVersion() + "§7.");
+                    player.sendMessage(Commandlogger.getInstance().getConfig().getString("PREFIX") + " §aA new version of CommandLogger is Out!");
+                    player.sendMessage(Commandlogger.getInstance().getConfig().getString("PREFIX") + " §7Version §6" + updater.getVersion() + "§7, current version running is version §6" + Commandlogger.getInstance().getDescription().getVersion() + "§7.");
                     player.sendMessage(Commandlogger.getInstance().getConfig().getString("PREFIX") + " §a§lIt is recommended to update.");
                 }
             }, 40L);
