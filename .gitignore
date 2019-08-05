@@ -1,3 +1,7 @@
 #FOLDERS
 .idea/
 target/
+
+#FILES#
+pom.xml
+CommandLogger.iml
